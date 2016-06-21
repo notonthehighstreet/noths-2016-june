@@ -13,13 +13,11 @@ class HouseTest < Minitest::Test
   end
 
   def test_line_2
-    skip
     expected = "This is the malt that lay in the house that Jack built.\n"
     assert_equal expected, tale.line(2)
   end
 
   def test_line_3
-    skip
     expected = "This is the rat that ate the malt that lay in the house that Jack built.\n"
     assert_equal expected, tale.line(3)
   end
