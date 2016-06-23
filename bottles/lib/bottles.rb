@@ -9,51 +9,90 @@ class Bottles
   end
 
   def verse(number)
-    "#{amount(number).capitalize} #{container(number)} of beer on the wall, " +
-    "#{amount(number)} #{container(number)} of beer.\n" +
-    "#{action(number)}, " +
-    "#{amount(successor(number))} #{container(successor(number))} of beer on the wall.\n"
+    cn = container_number_for(number)
+    sn = container_number_for(cn.successor)
+    "#{cn.to_s.capitalize} of beer on the wall, " +
+    "#{cn} of beer.\n" +
+    "#{cn.action}, " +
+    "#{sn} of beer on the wall.\n"
   end
 
-  private
-
-  def container(number)
-    if number == 1
-      "bottle"
+  def container_number_for(number)
+    case number
+    when 0
+      ContainerNumber0
+    when 1
+      ContainerNumber1
+    when 6
+      ContainerNumber6
     else
-      "bottles"
-    end
+      ContainerNumber
+    end.new(number)
+  end
+end
+
+class ContainerNumber
+  attr_reader :number
+
+  def initialize(number)
+    @number = number
   end
 
-  def pronoun(number)
-    if number == 1
-      "it"
-    else
-      "one"
-    end
+  def to_s
+    "#{amount} #{container}"
   end
 
-  def amount(number)
-    if number == 0
-      "no more"
-    else
-      number.to_s
-    end
+  def container
+    "bottles"
   end
 
-  def action(number)
-    if number == 0
-      "Go to the store and buy some more"
-    else
-      "Take #{pronoun(number)} down and pass it around"
-    end
+  def pronoun
+    "one"
   end
 
-  def successor(number)
-    if number == 0
-      99
-    else
-      number - 1
-    end
+  def amount
+    number.to_s
+  end
+
+  def action
+    "Take #{pronoun} down and pass it around"
+  end
+
+  def successor
+    number - 1
+  end
+end
+
+class ContainerNumber0 < ContainerNumber
+  def amount
+    "no more"
+  end
+
+  def action
+    "Go to the store and buy some more"
+  end
+
+  def successor
+    99
+  end
+end
+
+class ContainerNumber1 < ContainerNumber
+  def container
+    "bottle"
+  end
+
+  def pronoun
+    "it"
+  end
+end
+
+class ContainerNumber6 < ContainerNumber
+  def amount
+    "1"
+  end
+
+  def container
+    "six-pack"
   end
 end

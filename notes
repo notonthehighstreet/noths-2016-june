@@ -1,0 +1,141 @@
+learn best by asking questions
+
+first question: broad - not too helpful
+then more specific
+until almost telling the answer
+
+We want the person to come up with the answer themselves
+then ask them 'what question should I have asked'
+
+
+Problem
+attempting to DRY too soon
+get concrete examples _then_ abstract
+
+
+Sandi's Rules
+
+changeability increases levels of abstraction
+it is harder to read abstracted code
+wait until the change request comes in
+
+shameless green
+express info of the domain of the problem - readable
+not to make it easier to change
+
+Ask - how will that change save me money
+
+To change code we need a change in requirement
+
+The code is not "open" to the requirements.
+O from SOLID
+Open - open/close OO principle
+open for extension, closed to modification
+
+Refactor - alter organization of code without changing behaviour
+
+1. Refactor until we can write just new code and new tests to add feature - make it open
+2. Write new feature
+
+Q. Is this code open to the new requirement?
+A. No - then refactor it to be open
+
+Q. Do you know how to make it open?
+A. No - the code is too big from
+
+Deal with the code smells
+Code Smells
+they have 20-21 names
+
+Refactorings are to deal with one specific code smell
+Only look at one code smell at a time
+
+Name the code smell
+
+Duplication of Strings
+Rules for removing duplication
+Flocking rules
+1. Find things most alike
+2. Identify differences
+3. Make the smallest change
+
+Horizontal vs Vertical refactoring
+Work on two lines and make them work first
+
+Find simplest - even if not most alike
+Hard things get simple, if you fix the simple things first
+
+Test cannot fail
+Change only one line of code at the beginning
+Sameness is interesting (easy)
+Difference is more interesting (hard)
+Deal with difference
+
+Name the abstraction - make the method name
+Then use send the message to the abstraction
+Use word that the customer would use
+Get the language in common with the customer
+Nurture the talent
+
+Transformation
+read Bob Martin blog post
+
+Use case statements instead of elsifs
+
+
+
+Real refactoring
+Tests do not break
+
+
+
+Things that we are asked to change, suggest it's going to change more.
+Make it more changeable.
+
+
+
+Name the things what they are
+not what they do now
+
+
+Liskov
+L in SOLID
+If you violate the expectation of the caller
+avoid forcing conditionals on callers
+Fix this on the caller
+rule extends to duck typing
+So we might want to create a Null object
+
+
+Learn the material by teaching it
+
+Broadest question is almost useless
+Ask them what I should have asked them
+Get a repetoire of questions
+
+
+
+Reflection
+Sleep on idea
+And get the group to come up with presentation
+Reflect on all the little things so we can remember it later
+
+We should make the cookbook a game
+
+
+
+
+Treat object creation as free
+Run benchmarks to determine it is too slow
+
+
+Primitive Obsession
+
+
+
+
+
+
+
+
+Easy to test if the objects are immutable
