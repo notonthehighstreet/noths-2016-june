@@ -1,14 +1,32 @@
+# You can't mock things you don't own
+
 using Article
+
+# Why not override Animal.all  ?
+
+class FakeValidAnimal
+  def self.all(ids)
+
+  end
+end
+
+class ValidAnimal
+  # outerface for each interface
+  def self.all(ids)
+    Animal.all(ids).map {|animal| animal || NilAnimal.new}
+  end
+end
 
 class Farm
   attr_reader :animals
 
   def initialize(animals)
-    @animals = animals
+    # reduce the conditional to one place
+    @animals = animals.map {|animal| animal || NilAnimal.new}
   end
 
   def lyrics
-    animals.collect {|animal| verse(animal) }.join("\n\n")
+    animals.map {|animal| verse(animal) }.join("\n\n")
   end
 
   def verse(animal)
@@ -21,5 +39,14 @@ class Farm
     "Here #{sound.articlize}, there #{sound.articlize}, " +
       "everywhere #{sound.articlize} #{sound},\n" +
     "Old MacDonald had a farm, E-I-E-I-O."
+  end
+end
+
+class NilAnimal
+  def sound
+    "<silence>"
+  end
+  def species
+    "<silence>"
   end
 end
