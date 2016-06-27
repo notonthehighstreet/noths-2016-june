@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    byebug (9.0.5)
     coderay (1.1.1)
     ffi (1.9.10)
     formatador (0.2.5)
@@ -44,6 +45,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  byebug
   guard
   guard-shell
   minitest (~> 5.8)

@@ -97,4 +97,10 @@ This is the horse and the hound and the horn that belonged to the farmer sowing 
     assert_equal expected, tale.recite
   end
 
+  def test_last_line_jack
+    tale_correct = House.new(orderer: JackBuiltEnding.new)
+    expected = "the house that Jack built.\n"
+    assert_equal expected, tale_correct.data.last
+  end
+
 end
