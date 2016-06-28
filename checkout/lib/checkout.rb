@@ -1,4 +1,5 @@
 require 'byebug'
+
 class Checkout
 
   PRODUCTS = {
@@ -30,21 +31,38 @@ class Checkout
   end
 
   def discount(before_discount)
-    percent(before_discount) + multi
+    percentage.apply(before_discount) + multibuy.apply(basket)
+  end
+end
+
+class PercentDiscount
+  attr_reader :threshold, :percentage
+  def initialize(percentage:, threshold:)
+    @percentage = percentage
+    @threshold = threshold
   end
 
-  def percent(before_discount)
-    if before_discount >= percentage[:threshold]
-      before_discount * percentage[:percentage] / 100
+  def apply(before_discount)
+    if before_discount >= threshold
+      before_discount * percentage / 100
     else
       0
     end
   end
+end
 
-  def multi
+class MultiDiscount
+  attr_reader :quantity, :item, :discount
 
-    if basket[multibuy[:item]] >= multibuy[:quantity]
-       basket[multibuy[:item]] * multibuy[:discount]
+  def initialize(quantity:, item:, discount:)
+    @quantity = quantity
+    @item = item
+    @discount = discount
+  end
+
+  def apply(basket)
+    if basket[item] >= quantity
+       basket[item] * discount
     else
       0
     end

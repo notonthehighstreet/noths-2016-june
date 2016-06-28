@@ -1,7 +1,7 @@
 require_relative '../lib/checkout.rb'
 
 describe Checkout do
-  subject(:checkout) {described_class.new({percentage: 10, threshold: BigDecimal.new("60")}, {quantity: 2, item: "001", discount: BigDecimal("0.25")})}
+  subject(:checkout) {described_class.new(PercentDiscount.new({percentage: 10, threshold: BigDecimal.new("60")}), MultiDiscount.new({quantity: 2, item: "001", discount: BigDecimal("0.25")}))}
 
   describe "#scan" do
     it 'can scan an item' do
