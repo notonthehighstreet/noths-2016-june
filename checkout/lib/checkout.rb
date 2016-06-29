@@ -8,12 +8,11 @@ class Checkout
               "003" => BigDecimal("19.95")
               }
 
-  attr_reader :basket, :percentage, :multibuy
+  attr_reader :basket, :promotions
 
-  def initialize(percentage, multibuy)
+  def initialize(promotions)
     @basket = Hash.new(0)
-    @percentage = percentage
-    @multibuy = multibuy
+    @promotions = promotions
   end
 
   def scan(item, quantity = 1)
@@ -21,7 +20,8 @@ class Checkout
   end
 
   def total
-    before_discount - discount(before_discount)
+    current = before_discount
+    after_discount(current)
   end
 
   private
@@ -30,41 +30,55 @@ class Checkout
     basket.map {|key, value| PRODUCTS[key] * value }.reduce(:+)
   end
 
-  def discount(before_discount)
-    percentage.apply(before_discount) + multibuy.apply(basket)
+  def after_discount(current)
+    promotions.reduce(current) do |current, promotion|
+      current - promotion.apply({total: before_discount, basket: basket})
+    end
   end
+
 end
 
 class PercentDiscount
-  attr_reader :threshold, :percentage
   def initialize(percentage:, threshold:)
     @percentage = percentage
     @threshold = threshold
   end
 
-  def apply(before_discount)
-    if before_discount >= threshold
-      before_discount * percentage / 100
-    else
-      0
-    end
+  def apply(args)
+    eligible(args[:total]) ? deduction(args[:total]) : 0
+  end
+
+
+  private
+  attr_reader :threshold, :percentage
+  def eligible(before_discount)
+    before_discount >= threshold
+  end
+
+  def deduction(before_discount)
+    before_discount * percentage / 100
   end
 end
 
 class MultiDiscount
-  attr_reader :quantity, :item, :discount
-
   def initialize(quantity:, item:, discount:)
     @quantity = quantity
     @item = item
     @discount = discount
   end
 
-  def apply(basket)
-    if basket[item] >= quantity
-       basket[item] * discount
-    else
-      0
-    end
+  def apply(args)
+    eligible(args[:basket]) ? deduction(args[:basket]) : 0
+  end
+
+  private
+  attr_reader :quantity, :item, :discount
+
+  def eligible(basket)
+    basket[item] >= quantity
+  end
+
+  def deduction(basket)
+    basket[item] * discount
   end
 end
